@@ -135,6 +135,7 @@
     <Compile Include="Mapping\IMapper.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="DataContracts\ProductDataContract.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
