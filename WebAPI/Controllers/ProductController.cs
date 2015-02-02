@@ -12,48 +12,32 @@ namespace WebAPI.Controllers
 {
     public class ProductsController : ApiController
     {
-        private static IContainer Container { get; set; }
         private readonly IProductService _productService;
+        private readonly IMapper _mapper;
 
-        public ProductsController(IProductService productService)
+        public ProductsController(IProductService productService, IMapper mapper)
         {
             _productService = productService;
+            _mapper = mapper;
         }
 
         public IEnumerable<ProductDataContract> GetAllProducts()
         {
-            //Map data model to view model
-            //Should put this some where else?
-
-
-            return _productService.GetProducts().Select(x => new ProductDataContract()
-                            {
-                                Id = x.Id,
-                                Name = x.Name,
-                                Category = x.Category,
-                                Price = x.Price
-                            });
-
+            return _productService.GetProducts().Select(_mapper.Map);
         }
 
-        public ProductDataContract GetProduct(int id)
+        public IHttpActionResult GetProduct(int id)
         {
-
             var product = _productService.GetProduct(id);
 
-            return new ProductDataContract()
+            if (product == null)
             {
-                Id = product.Id,
-                Category = product.Category,
-                Name = product.Name,
-                Price = product.Price
-            };
+                return NotFound();
+            }
 
-//            var product = products.FirstOrDefault((p) => p.Id == id);
-//            if (product == null)
-//            {
-//                return NotFound();
-//            }
+            var dataContract = _mapper.Map(product);
+
+            return Ok(dataContract);
         }
     }
 }

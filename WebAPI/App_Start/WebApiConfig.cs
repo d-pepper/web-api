@@ -1,9 +1,15 @@
-﻿using System.Reflection;
+﻿using System.Linq;
+using System.Net.Http.Formatting;
+using System.Reflection;
 using System.Web.Http;
 using Autofac;
 using Autofac.Integration.WebApi;
+using Newtonsoft.Json.Serialization;
 using WebAPI.Abstract.Products;
-using WebAPI.Impl.Products;
+using WebAPI.Controllers;
+using WebAPI.Mapping;
+using WebAPI.Services.Products;
+using WebAPI.Models;
 
 namespace WebAPI
 {
@@ -12,7 +18,8 @@ namespace WebAPI
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
-            config.Formatters.Remove(config.Formatters.XmlFormatter);
+            var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();
+            jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
             // Web API routes
             config.MapHttpAttributeRoutes();
@@ -28,6 +35,7 @@ namespace WebAPI
             
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             builder.RegisterType<DummyProductService>().As<IProductService>();
+            builder.RegisterType<DataContractMapper>().As<IMapper>();
 
             var container = builder.Build();
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);

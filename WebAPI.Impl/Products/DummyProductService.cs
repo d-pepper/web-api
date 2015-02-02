@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using WebAPI.Abstract;
 using WebAPI.Abstract.Products;
 
-namespace WebAPI.Impl.Products
+namespace WebAPI.Services.Products
 {
     public class DummyProductService : IProductService
     {
@@ -24,12 +24,7 @@ namespace WebAPI.Impl.Products
 
         public Product GetProduct(int id)
         {
-            throw new NotImplementedException();
+            return _products.FirstOrDefault(p => p.Id == id);
         }
-
-//        public Product GetProduct(int id)
-//        {
-//            return _products.FirstOrDefault(p => p.Id == id);
-//        }
     }
 }
