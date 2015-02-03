@@ -130,12 +130,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\AccountsController.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Mapping\DataContractMapper.cs" />
     <Compile Include="Mapping\IMapper.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="DataContracts\ProductDataContract.cs" />
-    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -155,6 +154,10 @@
     <ProjectReference Include="..\WebAPI.Abstract\WebAPI.Abstract.csproj">
       <Project>{c3b3e47c-a276-41a3-a65b-47de129114e6}</Project>
       <Name>WebAPI.Abstract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebAPI.DAL\WebAPI.DAL.csproj">
+      <Project>{bea1de6f-6913-4c76-ac06-e1f23d65ea71}</Project>
+      <Name>WebAPI.DAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\WebAPI.Impl\WebAPI.Services.csproj">
       <Project>{61a5b11f-29b4-4413-af2d-da87a987c3ff}</Project>
