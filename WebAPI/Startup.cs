@@ -1,8 +1,9 @@
 ﻿using System.Web.Http;
 using Microsoft.Owin;
 using Owin;
+using WebAPI;
 
-[assembly: OwinStartup(typeof(WebAPI.Startup))]
+[assembly: OwinStartup(typeof(Startup))]
 namespace WebAPI
 {
     public class Startup

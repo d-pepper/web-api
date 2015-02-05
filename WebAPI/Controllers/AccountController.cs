@@ -9,11 +9,11 @@ namespace WebAPI.Controllers
 {
     public class AccountController : ApiController
     {
-        private AuthRepository _repo = null;
+        private readonly IAuthService _authService;
 
-        public AccountController(AuthRepository repo)
+        public AccountController(IAuthService authService)
         {
-            _repo = new AuthRepository();
+            _authService = authService;
         }
 
         [AllowAnonymous]
@@ -25,7 +25,7 @@ namespace WebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            IdentityResult result = await _repo.RegisterUser(userModel);
+            IdentityResult result = await _authService.RegisterUser(userModel);
 
             IHttpActionResult errorResult = GetErrorResult(result);
 
@@ -41,13 +41,37 @@ namespace WebAPI.Controllers
         {
             if (disposing)
             {
-                _repo.Dispose();
+                _authService.Dispose();
             }
         }
 
         private IHttpActionResult GetErrorResult(IdentityResult result)
         {
-            throw new System.NotImplementedException();
+            if (result == null)
+            {
+                return InternalServerError();
+            }
+
+            if (result.Succeeded)
+            {
+                return null;
+            }
+
+            if (result.Errors != null)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error);
+                }
+            }
+
+            if (ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            return BadRequest(ModelState);
         }
+
     }
 }

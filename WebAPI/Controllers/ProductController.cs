@@ -15,7 +15,7 @@ namespace WebAPI.Controllers
         private readonly IProductService _productService;
         private readonly IMapper _mapper;
 
-        public ProductsController(IProductService productService, IMapper mapper)
+     public ProductsController(IProductService productService, IMapper mapper)
         {
             _productService = productService;
             _mapper = mapper;
